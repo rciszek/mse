@@ -16,20 +16,20 @@ function alignment = create_patch_alignment( views, k, methods )
 %
 % Author: Robert Ciszek
 % email: ciszek@uef.fi
-% August 2014; Last revision: 25-July-20016
+% August 2014; Last revision: 14-August-20016
+
+    if ~exist('methods', 'var')
+	methods = repmat({'euclidean'},1,size(views,2));
+    end 
 
     n = size(views{1,1},1);
     v = size(views,2);
     L = zeros(n,n,v);
     W = zeros(n,n,v); 
     D = zeros(n,n,v); 
- 
-    if ~exist('methods', 'var')
-	methods = repmat({'euclidean'},1,v);
-    end 
-   
+    
     for v_i=1:v
-	distances = squareform(pdist(views{1,v_i},char(methods(v_i))));
+	distances = squareform(pdist(views{1,v_i},char(methods(v_i)))).^2;
         distances(isinf(distances)) = 0;
         distances(isnan(distances)) = 0;
         distances  = exp(-distances);
