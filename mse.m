@@ -1,4 +1,4 @@
-function [Y alpha] = mse( views, d, k, r, max_iter, methods )
+function [Y alpha] = mse( views, d, k, r, t, max_iter, methods )
 %MSE - Returns a multiview spectral embedding of the data given as a parameter
 %A MATLAB implementation of the Multiview Spectral Embedding method proposed by T. Xia, D. Tao, 
 %T. Mei and Y. Zhang in "Multiview Spectral Embedding," in IEEE Transactions on Systems, 
