@@ -59,7 +59,7 @@ function [Y alpha] = mse( views, d, k, r, t, max_iter, methods )
         [B I] = sort(e);
         Y = transpose(V(:,I(1:d)));
 
-        alpha = calculate_alpha( Y, L, m );
+        disp(strcat('Alpha:',sprintf(' %f',alpha )));
           
 	disp(sprintf('Alpha: %f ',alpha ));
         if iteration >= max_iter
