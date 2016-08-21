@@ -1,11 +1,12 @@
-function alignment = create_patch_alignment( views, k, methods )
+function alignment = create_patch_alignment( views, k, t, methods )
 %CREATE_PATCH_ALIGNMENT - Creates 3D matrix composed of 2D neighborhood distance matrices.
 %
 % Syntax:  alignment = create_patch_alignment(views,k,methods)
 %
 % Inputs:
 %    views - Cell array of feature matrices
-%    k - Neighborhood size 
+%    k - Neighborhood size
+%    t - Kernel parameter 
 %    methods - Method for each view to be used in the distance calculations
 %
 % Outputs:
@@ -16,7 +17,7 @@ function alignment = create_patch_alignment( views, k, methods )
 %
 % Author: Robert Ciszek
 % email: ciszek@uef.fi
-% August 2014; Last revision: 14-August-20016
+% August 2014; Last revision: 21-August-2016
 
     if ~exist('methods', 'var')
 	methods = repmat({'euclidean'},1,size(views,2));
@@ -32,7 +33,7 @@ function alignment = create_patch_alignment( views, k, methods )
 	distances = squareform(pdist(views{1,v_i},char(methods(v_i)))).^2;
         distances(isinf(distances)) = 0;
         distances(isnan(distances)) = 0;
-        distances  = exp(-distances);
+        distances  = exp(-distances/t);
 
 	[sorted indexes] = sort(distances,2,'descend');
 	for p=1:n

@@ -1,22 +1,23 @@
-function Y = mse( views, d, k, r, max_iter, methods )
-%MSE - Returns a multiview spectral embedding of the given data
+function [Y alpha] = mse( views, d, k, r, max_iter, methods )
+%MSE - Returns a multiview spectral embedding of the data given as a parameter
 %A MATLAB implementation of the Multiview Spectral Embedding method proposed by T. Xia, D. Tao, 
 %T. Mei and Y. Zhang in "Multiview Spectral Embedding," in IEEE Transactions on Systems, 
 %Man, and Cybernetics, Part B (Cybernetics), vol. 40, no. 6, pp. 1438-1446, Dec. 2010.
 %
-% Syntax:  [reduction] = mse(views,d,k,r,max_iter, methods)
+% Syntax:  [reduction] = mse(views,d,k,r,t,max_iter, methods)
 %
 % Inputs:
 %    views - A cell array of NxM matrices
 %    d - Final dimensionality
 %    k - Neighborhood size
 %    r - Regularization factor, r > 1
+%    t - kernel parameter
 %    max_iter - Maximum number of iterations
 %    methods - A cell array of methods for distance evaluation.
 %	       All methods supported by pdist are allowed. 
 %
 % Outputs:
-%    Y - Multiview embedding
+%    reduction - Multiview dimensionality reduction
 %
 % Example: 
 %    mse({first_view, second_view},2,30,3,100,{'euclidean','jaccard'})
@@ -24,7 +25,7 @@ function Y = mse( views, d, k, r, max_iter, methods )
 % Other m-files required: create_patch_alignment.m
 %
 % Author: Robert Ciszek 
-% August 2014; Last revision: 22-July-2016
+% August 2014; Last revision: 21-August-2016
 
     if ~exist('methods', 'var')
         methods = repmat({'euclidean'},1,size(views,2));
@@ -32,7 +33,7 @@ function Y = mse( views, d, k, r, max_iter, methods )
 
     n = size(views{1,1},1);
     m = size(views,2);
-    L = create_patch_alignment(views, k, methods );
+    L = create_patch_alignment(views, k, t,methods );
     alpha = ones(1,m) / m;
   
     Y = zeros(d,n);
