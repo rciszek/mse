@@ -51,13 +51,11 @@ function [Y alpha] = mse( views, d, k, r, t, max_iter, methods )
 	w_L =  sum(bsxfun(@times,L,reshape(alpha,[1 1 m])),3);
 		        
 	[V,D] = eig(w_L);
- 
-	f_w_L = w_L + eye(size(w_L))*(-2*min(eig(w_L)));
-	[V,D] = eig(f_w_L);        
+     
 	e = diag(D);
 
         [B I] = sort(e);
-        Y = transpose(V(:,I(1:d)));
+        Y = transpose(V(:,I(2:d+1)));
 
         disp(strcat('Alpha:',sprintf(' %f',alpha )));
           
